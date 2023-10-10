@@ -645,13 +645,9 @@ public void ItemCost() {
          double cTax = (sum * 3.9)/100;
          double cChange = (cash - (sum + cTax));
          
-         //System.out.print(cChange);
+        
          
          String ChangeGiven = String.format("$ %.2f", cChange);
-         //System.out.print(ChangeGiven);
-         //this.jtxtChange.setText(ChangeGiven);
-         //System.out.println(jtxtChange.getText());
-         //this.pack();
          jtxtChange.setText(ChangeGiven);
     }
     
@@ -819,7 +815,7 @@ public void ItemCost() {
 
             double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
             double newTotalPrice = currentQuantity * PriceOfItem;
-            model.setValueAt(newTotalPrice, selectedRow, 3);
+            model.setValueAt(newTotalPrice, selectedRow, 2);
         } else {
             model.removeRow(selectedRow);
         }
@@ -971,7 +967,7 @@ if (jcboPayment.getSelectedItem().equals("cash")) {
     int rowCount = model.getRowCount();
     for (int i = 0; i < rowCount; i++) {
         if (model.getValueAt(i, 0).equals(itemName)) { 
-             //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
             int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
             double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
             currentQuantity++; 
