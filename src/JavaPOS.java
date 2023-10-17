@@ -574,7 +574,32 @@ public class JavaPOS extends javax.swing.JFrame {
 }
     
  */
-public void ItemCost() {
+    public void ItemCost() {
+    double sum = 0;
+
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+    for (int i = 0; i < jTable1.getRowCount(); i++) {
+        double quantity = Double.parseDouble(model.getValueAt(i, 1).toString());
+        double price = Double.parseDouble(model.getValueAt(i, 2).toString());
+        sum += price;
+    }
+
+    double cTax = (sum * 3.9) / 100;
+    String iTaxTotal = String.format("$ %.2f", cTax);
+    jtxtTax.setText(iTaxTotal);
+
+    String iSubTotal = String.format("$ %.2f", sum);
+    jtxtSubTotal.setText(iSubTotal);
+
+    String iTotal = String.format("$ %.2f", sum + cTax);
+    jtxtTotal.setText(iTotal);
+
+    String BarCode = String.format("Total Is %.2f", sum + cTax);
+    jtxtBarCode.setText(BarCode);
+}
+    
+/*public void ItemCost() {
     double sum = 0;
 
     for (int i = 0; i < jTable1.getRowCount(); i++) {
@@ -595,7 +620,7 @@ public void ItemCost() {
 
     String BarCode = String.format("Total Is %.2f", cTotal1 + cTax);
     jtxtBarCode.setText(BarCode);
-}
+}*/
     
     
     //===================================//
@@ -803,8 +828,48 @@ public void ItemCost() {
 
     private void jbtnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoveActionPerformed
        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                                        
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     int selectedRow = jTable1.getSelectedRow();
+
+    if (selectedRow >= 0) {
+        int currentQuantity = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
+        System.out.println(currentQuantity);
+        double currentTotalPrice = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+        System.out.println(currentTotalPrice);
+        if (currentQuantity > 1) {
+            double unitPrice = currentTotalPrice / currentQuantity; 
+           double finalPrice = currentTotalPrice - unitPrice;
+            currentQuantity--; 
+            System.out.println(currentQuantity);
+            model.setValueAt(currentQuantity, selectedRow, 1);
+
+            //double unitPrice = currentTotalPrice / currentQuantity; // Calcula el precio unitario
+            System.out.println(currentTotalPrice);
+            //double finalPrice = currentTotalPrice - unitPrice;
+            model.setValueAt(finalPrice, selectedRow, 2); // Actualiza el precio unitario en la tabla
+        } else {
+            model.removeRow(selectedRow); // Si la cantidad es 1 o menos, elimina la fila
+        }
+
+  
+
+      ItemCost();
+        if (jcboPayment.getSelectedItem().equals("cash")) {
+            Change();
+        } else {
+            jtxtChange.setText("");
+            jtxtDisplay.setText("");
+        }
+    }
+
+
+
+
+        
+       /* DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    int selectedRow = jTable1.getSelectedRow();
+  
 
     if (selectedRow >= 0) {
         int currentQuantity = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
@@ -814,7 +879,11 @@ public void ItemCost() {
             model.setValueAt(currentQuantity, selectedRow, 1);
 
             double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
-            double newTotalPrice = currentQuantity * PriceOfItem;
+             double currentTotalPrice = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            //double currentTotalPrice = currentQuantity * PriceOfItem;//
+            double newTotalPrice = currentTotalPrice - PriceOfItem;
+            //double FinalTotalPrice = newTotalPrice -= PriceOfItem;//
+            
             model.setValueAt(newTotalPrice, selectedRow, 2);
         } else {
             model.removeRow(selectedRow);
@@ -828,7 +897,7 @@ public void ItemCost() {
             jtxtChange.setText("");
             jtxtDisplay.setText("");
         }
-    }
+    }*/
 
         
         
