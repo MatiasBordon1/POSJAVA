@@ -1024,7 +1024,7 @@ if (jcboPayment.getSelectedItem().equals("cash")) {
            jtxtDisplay.setText(Enternumber);
         }
     }//GEN-LAST:event_jbtn0ActionPerformed
-
+//Objetos del menu//
     private void jbtnWatterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnWatterActionPerformed
         
    double PriceOfItem = 4.00;
@@ -1065,146 +1065,527 @@ if (jcboPayment.getSelectedItem().equals("cash")) {
 
     private void jbtnLevainCookiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLevainCookiesActionPerformed
         double PriceOfItem = 4.50;
+        String itemName = "Cookies";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"LevainCookies", "1",PriceOfItem });
-        ItemCost();
         
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+        
+        
+    ItemCost();    
     }//GEN-LAST:event_jbtnLevainCookiesActionPerformed
 
     private void jbtnDietCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDietCokeActionPerformed
         double PriceOfItem = 3.50;
+        String itemName = "DietCoke";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"DietCoke", "1",PriceOfItem });
-        ItemCost();
+        
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+        
+        
+    ItemCost(); 
         
     }//GEN-LAST:event_jbtnDietCokeActionPerformed
 
     private void jbtnCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCokeActionPerformed
         double PriceOfItem = 3.50;
+        String itemName = "Coke";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Coke", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
         
     }//GEN-LAST:event_jbtnCokeActionPerformed
 
     private void jbtnFantaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFantaActionPerformed
         double PriceOfItem = 3.50;
+        String itemName = "Fanta";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Fanta", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
         
     }//GEN-LAST:event_jbtnFantaActionPerformed
 
     private void jbtnSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSpriteActionPerformed
         double PriceOfItem = 3.50;
+        String itemName = "Sprite";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Sprite", "1",PriceOfItem });
-        ItemCost();
         
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
     }//GEN-LAST:event_jbtnSpriteActionPerformed
 
     private void jbtnLemonadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLemonadeActionPerformed
         double PriceOfItem = 3.50;
+        String itemName = "Lemonade";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Lemonade", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
         
     }//GEN-LAST:event_jbtnLemonadeActionPerformed
 
     private void jbtnFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriesActionPerformed
         double PriceOfItem = 5.00;
+        String itemName = "Fries";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Fries", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
         
     }//GEN-LAST:event_jbtnFriesActionPerformed
 
     private void jbtnBaconCheeseFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBaconCheeseFriesActionPerformed
        double PriceOfItem = 6.50;
+        String itemName = "BC Fries";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"BaconCheeseFries", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
         
     }//GEN-LAST:event_jbtnBaconCheeseFriesActionPerformed
 
     private void jbtnOnionRingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOnionRingsActionPerformed
         double PriceOfItem = 6.00;
+        String itemName = "Onion Rings";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"OnionRings", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnOnionRingsActionPerformed
 
     private void jbtnMozzarellaSticksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMozzarellaSticksActionPerformed
          double PriceOfItem = 6.00;
-        
+        String itemName = "Mozzarella Sticks";
+         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"MozzarellaSticks", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnMozzarellaSticksActionPerformed
 
     private void jbtnNuggsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuggsActionPerformed
          double PriceOfItem = 6.50;
+        String itemName = "Nuggets";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"Nuggs", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnNuggsActionPerformed
 
     private void jbtnCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheeseBurgerActionPerformed
          double PriceOfItem = 7.50;
+        String itemName = "Cheese Burger";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"CheeseBurger", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnCheeseBurgerActionPerformed
 
     private void jbtnDBLCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDBLCheeseBurgerActionPerformed
         double PriceOfItem = 9.50;
+        String itemName = "DBL Cheese Burger";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"DBLCheeseBurger", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnDBLCheeseBurgerActionPerformed
 
     private void jbtnFriedChickenSandwichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriedChickenSandwichActionPerformed
        double PriceOfItem = 9.00;
+       String itemName = "Fried Chicken Sandwich";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"FriedChickenSandwich", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnFriedChickenSandwichActionPerformed
 
     private void jbtnPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPizzaActionPerformed
         double PriceOfItem = 15.00;
+        String itemName = "Pizza";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"PizzaAction", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnPizzaActionPerformed
 
     private void jbtnIceCreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIceCreamActionPerformed
        double PriceOfItem = 10.00;
-        
+       String itemName = "Ice-Cream"; 
+       
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"IceCream", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnIceCreamActionPerformed
 
     private void jbtnMilkShakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMilkShakeActionPerformed
          double PriceOfItem = 12.75;
+         String itemName = "MilkShake";
         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{"MilkShake", "1",PriceOfItem });
-        ItemCost();
+        
+        boolean itemExists = false;
+    int rowCount = model.getRowCount();
+    for (int i = 0; i < rowCount; i++) {
+        if (model.getValueAt(i, 0).equals(itemName)) { 
+            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
+            int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+            double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+            currentQuantity++; 
+            currentPrice += PriceOfItem; 
+            model.setValueAt(currentQuantity, i, 1);
+            model.setValueAt(currentPrice, i, 2);
+            itemExists = true;
+            break;
+        }
+    }
+    
+    if (!itemExists) {
+        model.addRow(new Object[]{itemName, "1", PriceOfItem});
+    }
+    
+    
+    ItemCost();
+        
     }//GEN-LAST:event_jbtnMilkShakeActionPerformed
 
     private void jtxtDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDisplayActionPerformed
