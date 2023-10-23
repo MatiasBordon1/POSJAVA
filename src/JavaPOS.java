@@ -547,6 +547,8 @@ public class JavaPOS extends javax.swing.JFrame {
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 480, 1380, 230));
 
+        jtxtBarCode.setFont(new java.awt.Font("Code39", 0, 48)); // NOI18N
+        jtxtBarCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jtxtBarCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtBarCodeActionPerformed(evt);
@@ -580,7 +582,7 @@ public class JavaPOS extends javax.swing.JFrame {
     String iTotal = String.format("$ %.2f", sum + cTax);
     jtxtTotal.setText(iTotal);
 
-    String BarCode = String.format("Total Is %.2f", sum + cTax);
+    String BarCode = String.format("...", sum + cTax);
     jtxtBarCode.setText(BarCode);
 }
     
