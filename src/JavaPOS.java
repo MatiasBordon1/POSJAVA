@@ -1,4 +1,8 @@
 
+import java.awt.Desktop;
+import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.IOException;
 import java.text.MessageFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -555,25 +559,6 @@ public class JavaPOS extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 //============================================FUNCION COSTO===============================================
     
-   /* public void ItemCost() {
-    double sum = 0;
-
-    for (int i = 0; i < jTable1.getRowCount(); i++) {
-        sum = sum + Double.parseDouble(jTable1.getValueAt(i, 2).toString());
-    }
-    
-    
-    double cTax = (sum * 3.9) / 100;
-    double cTotal1 = sum + cTax;
-
-    
-    jtxtSubTotal.setText(String.format("$ %.2f", sum));
-    jtxtTax.setText(String.format("$ %.2f", cTax));
-    jtxtTotal.setText(String.format("$ %.2f", cTotal1));
-    jtxtBarCode.setText(String.format("Total Is %.2f", cTotal1));
-}
-    
- */
     public void ItemCost() {
     double sum = 0;
 
@@ -598,60 +583,6 @@ public class JavaPOS extends javax.swing.JFrame {
     String BarCode = String.format("Total Is %.2f", sum + cTax);
     jtxtBarCode.setText(BarCode);
 }
-    
-/*public void ItemCost() {
-    double sum = 0;
-
-    for (int i = 0; i < jTable1.getRowCount(); i++) {
-        sum = sum + Double.parseDouble(jTable1.getValueAt(i, 2).toString());
-    }
-    jtxtSubTotal.setText(Double.toString(sum));
-    double cTotal1 =  Double.parseDouble(jtxtSubTotal.getText());
-
-    double cTax = (cTotal1 * 3.9) / 100;
-    String iTaxTotal = String.format("$ %.2f", cTax);
-    jtxtTax.setText(iTaxTotal);
-
-    String iSubTotal = String.format("$ %.2f", cTotal1);
-    jtxtSubTotal.setText(iSubTotal);
-
-    String iTotal = String.format("$ %.2f", cTotal1 + cTax);
-    jtxtTotal.setText(iTotal);
-
-    String BarCode = String.format("Total Is %.2f", cTotal1 + cTax);
-    jtxtBarCode.setText(BarCode);
-}*/
-    
-    
-    //===================================//
-    
-    
-    
-   /* public void ItemCost()
-    {
-        double sum = 0;
-        
-        for (int i = 0; i < jTable1.getRowCount(); i++)
-        {
-            sum = sum + Double.parseDouble(jTable1.getValueAt(i, 2).toString());
-        }
-        jtxtSubTotal.setText(Double.toString(sum));
-        double cTotal1 =  Double.parseDouble(jtxtSubTotal.getText());
-        
-        double cTax = (cTotal1 * 3.9)/100;
-        String iTaxTotal = String.format("$ %.2f", cTax);
-        jtxtTax.setText(iTaxTotal);
-        
-         String iSubTotal = String.format("$ %.2f", cTotal1);
-        jtxtSubTotal.setText(iSubTotal);
-        
-        String iTotal = String.format("$ %.2f", cTotal1 + cTax);
-        jtxtTotal.setText(iTotal);
-        
-        String BarCode = String.format("Total Is %.2f", cTotal1 + cTax);
-        jtxtBarCode.setText(BarCode);
-        
-    }*/
     
     //============================================FUNCION CAMBIO===============================================
     
@@ -794,25 +725,18 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnPayActionPerformed
 
     private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrintActionPerformed
-        MessageFormat header = new MessageFormat("Printing in Progress");
-        MessageFormat footer = new MessageFormat("Page {0, number, integer}");
-        
-        try 
-        {
-            jTable1.print(JTable.PrintMode.NORMAL, header, footer);
-        }
-        
-        
-        //catch (java.awt.print.PrinterException e) {
-    //System.err.println("Error during printing: " + e.getMessage());
-//}
-        
-        
-        catch(java.awt.print.PrinterException e)
-        {
-            System.err.format("No Printer Found", e.getMessage());
-        }
-            
+      MessageFormat header = new MessageFormat("Printing in Progress");
+MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+
+try {
+    
+    htmlPrint.generateHtmlFile(jTable1, "table.html");
+
+    
+    Desktop.getDesktop().browse(new File("table.html").toURI());
+} catch (IOException e) {
+    e.printStackTrace();
+} 
     }//GEN-LAST:event_jbtnPrintActionPerformed
     private JFrame frame;
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed
@@ -843,16 +767,11 @@ public class JavaPOS extends javax.swing.JFrame {
             currentQuantity--; 
             System.out.println(currentQuantity);
             model.setValueAt(currentQuantity, selectedRow, 1);
-
-            //double unitPrice = currentTotalPrice / currentQuantity; // Calcula el precio unitario
             System.out.println(currentTotalPrice);
-            //double finalPrice = currentTotalPrice - unitPrice;
-            model.setValueAt(finalPrice, selectedRow, 2); // Actualiza el precio unitario en la tabla
+            model.setValueAt(finalPrice, selectedRow, 2);
         } else {
-            model.removeRow(selectedRow); // Si la cantidad es 1 o menos, elimina la fila
+            model.removeRow(selectedRow); 
         }
-
-  
 
       ItemCost();
         if (jcboPayment.getSelectedItem().equals("cash")) {
@@ -862,96 +781,6 @@ public class JavaPOS extends javax.swing.JFrame {
             jtxtDisplay.setText("");
         }
     }
-
-
-
-
-        
-       /* DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    int selectedRow = jTable1.getSelectedRow();
-  
-
-    if (selectedRow >= 0) {
-        int currentQuantity = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
-
-        if (currentQuantity > 1) {
-            currentQuantity--;
-            model.setValueAt(currentQuantity, selectedRow, 1);
-
-            double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
-             double currentTotalPrice = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
-            //double currentTotalPrice = currentQuantity * PriceOfItem;//
-            double newTotalPrice = currentTotalPrice - PriceOfItem;
-            //double FinalTotalPrice = newTotalPrice -= PriceOfItem;//
-            
-            model.setValueAt(newTotalPrice, selectedRow, 2);
-        } else {
-            model.removeRow(selectedRow);
-        }
-        
-        
-        ItemCost();
-        if (jcboPayment.getSelectedItem().equals("cash")) {
-            Change();
-        } else {
-            jtxtChange.setText("");
-            jtxtDisplay.setText("");
-        }
-    }*/
-
-        
-        
-        
-/*DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-int selectedRow = jTable1.getSelectedRow();
-
-if (selectedRow >= 0) {
-    int currentQuantity = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
-    
-    
-    if (currentQuantity > 1) {
-        
-        currentQuantity--;
-        model.setValueAt(currentQuantity, selectedRow, 1);
-        
-        
-        double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
-        double newTotalPrice = currentQuantity * PriceOfItem;
-        model.setValueAt(newTotalPrice, selectedRow, 3);
-    } else {
-       
-        model.removeRow(selectedRow);
-    }
-}
-
-ItemCost();
-if (jcboPayment.getSelectedItem().equals("cash")) {
-    Change();
-} else {
-    jtxtChange.setText("");
-    jtxtDisplay.setText("");
-}
-*/
-
-//==================================//
-
-
-// DefaultTableModel model = (DefaultTableModel) jTable1.getModel();       
-       //int RemoveItem = jTable1.getSelectedRow();        
-        //if(RemoveItem >= 0)
-        //{
-           // model.removeRow(RemoveItem);
-        //}
-        //ItemCost(); 
-        //if (jcboPayment.getSelectedItem().equals("cash"));
-        //{
-           // Change();
-        //}
-        //{
-           // jtxtChange.setText("");
-           // jtxtDisplay.setText("");
-        //}
     }//GEN-LAST:event_jbtnRemoveActionPerformed
 
     private void jbtn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn7ActionPerformed
@@ -1036,7 +865,6 @@ if (jcboPayment.getSelectedItem().equals("cash")) {
     int rowCount = model.getRowCount();
     for (int i = 0; i < rowCount; i++) {
         if (model.getValueAt(i, 0).equals(itemName)) { 
-            //double PriceOfItem = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
             int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
             double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
             currentQuantity++; 
@@ -1050,17 +878,8 @@ if (jcboPayment.getSelectedItem().equals("cash")) {
     
     if (!itemExists) {
         model.addRow(new Object[]{itemName, "1", PriceOfItem});
-    }
-    
-    
+    }   
     ItemCost();
-
-
-
-        //double PriceOfItem = 4.00;
-        //DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        //model.addRow(new Object[]{"Watter", "1",PriceOfItem });
-        //ItemCost();
     }//GEN-LAST:event_jbtnWatterActionPerformed
 
     private void jbtnLevainCookiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLevainCookiesActionPerformed
