@@ -432,6 +432,11 @@ public class JavaPOS extends javax.swing.JFrame {
         jPanel3.add(jtxtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 170, -1));
 
         jtxtSubTotal.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jtxtSubTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtSubTotalActionPerformed(evt);
+            }
+        });
         jPanel3.add(jtxtSubTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 170, -1));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 440, 180));
@@ -587,28 +592,42 @@ public class JavaPOS extends javax.swing.JFrame {
 }
     
     //============================================FUNCION CAMBIO===============================================
+public void Change() {
+    double sum = 0;
+    double tax = 3.9;
+    
+    String input = jtxtDisplay.getText();
     
     
-    public void Change()
-    {
-        double sum = 0;
-        double tax = 3.9;
-        double cash = Double.parseDouble(jtxtDisplay.getText());
-        
-         for (int i = 0; i < jTable1.getRowCount(); i++)
-        {
-            sum = sum + Double.parseDouble(jTable1.getValueAt(i, 2).toString());
-        }
-        
-         double cTax = (sum * 3.9)/100;
-         double cChange = (cash - (sum + cTax));
-         
-        
-         
-         String ChangeGiven = String.format("$ %.2f", cChange);
-         jtxtChange.setText(ChangeGiven);
+    if (input.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Err: Se necesita ingresar un monto", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
     
+    try {
+        double cash = Double.parseDouble(input);
+        
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            sum = sum + Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+        }
+
+        double cTax = (sum * 3.9) / 100;
+        double cChange = cash - (sum + cTax);
+
+        if (cChange < 0) {
+            
+            double falta = (sum + cTax) - cash;
+            String mensaje = "Err: monto insuficiente. Faltan $" + String.format("%.2f", falta) + " para completar el pago.";
+            JOptionPane.showMessageDialog(null, mensaje, "Advertencia", JOptionPane.WARNING_MESSAGE);
+            jtxtChange.setText(""); 
+        } else {
+            String ChangeGiven = String.format("$ %.2f", cChange);
+            jtxtChange.setText(ChangeGiven);
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Err: El monto ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     private void jbtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn3ActionPerformed
          String Enternumber = jtxtDisplay.getText();
         
@@ -730,9 +749,13 @@ public class JavaPOS extends javax.swing.JFrame {
       MessageFormat header = new MessageFormat("Printing in Progress");
 MessageFormat footer = new MessageFormat("Page {0, number, integer}");
 
+ Double subTotal = Double.parseDouble(jtxtSubTotal.getText().replace("$", "").trim());
+Double tax = Double.parseDouble(jtxtTax.getText().replace("$", "").trim());
+Double total = Double.parseDouble(jtxtTotal.getText().replace("$", "").trim());
+
 try {
     
-    htmlPrint.generateHtmlFile(jTable1, "table.html");
+    htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total);
 
     
     Desktop.getDesktop().browse(new File("table.html").toURI());
@@ -1416,6 +1439,10 @@ try {
     private void jtxtBarCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtBarCodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtBarCodeActionPerformed
+
+    private void jtxtSubTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtSubTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtSubTotalActionPerformed
 
     /**
      * @param args the command line arguments
