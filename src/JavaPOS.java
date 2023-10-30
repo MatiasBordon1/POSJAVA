@@ -591,8 +591,9 @@ public class JavaPOS extends javax.swing.JFrame {
     jtxtBarCode.setText(BarCode);
 }
     
-    //============================================FUNCION CAMBIO===============================================
-public void Change() {
+//============================================FUNCION CAMBIO===============================================
+    
+    public void Change() {
     double sum = 0;
     double tax = 3.9;
     
@@ -628,6 +629,17 @@ public void Change() {
         JOptionPane.showMessageDialog(null, "Err: El monto ingresado no es válido", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+
+//============================================FUNCION CONVERSION===============================================
+
+    private Double parseDoubleWithDefault(String text, Double defaultValue) {
+    try {
+        return Double.parseDouble(text);
+    } catch (NumberFormatException e) {
+        return defaultValue;
+    }
+}
+
     private void jbtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn3ActionPerformed
          String Enternumber = jtxtDisplay.getText();
         
@@ -686,7 +698,7 @@ public void Change() {
     private void jtxtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtTotalActionPerformed
-
+    
     private void jbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn1ActionPerformed
          String Enternumber = jtxtDisplay.getText();
         
@@ -747,21 +759,28 @@ public void Change() {
 
     private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrintActionPerformed
       MessageFormat header = new MessageFormat("Printing in Progress");
-MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+      MessageFormat footer = new MessageFormat("Page {0, number, integer}");
 
- Double subTotal = Double.parseDouble(jtxtSubTotal.getText().replace("$", "").trim());
-Double tax = Double.parseDouble(jtxtTax.getText().replace("$", "").trim());
-Double total = Double.parseDouble(jtxtTotal.getText().replace("$", "").trim());
+Double subTotal = parseDoubleWithDefault(jtxtSubTotal.getText().replace("$", "").trim(), 0.0);
+    Double tax = parseDoubleWithDefault(jtxtTax.getText().replace("$", "").trim(), 0.0);
+    Double total = parseDoubleWithDefault(jtxtTotal.getText().replace("$", "").trim(), 0.0);
+    String payment = jcboPayment.getSelectedItem().toString();
+    Double display = parseDoubleWithDefault(jtxtDisplay.getText().replace("$", "").trim(), 0.0);
+    Double change = parseDoubleWithDefault(jtxtChange.getText().replace("$", "").trim(), 0.0);
 
-try {
-    
-    htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total);
 
-    
-    Desktop.getDesktop().browse(new File("table.html").toURI());
-} catch (IOException e) {
-    e.printStackTrace();
-} 
+    if (display == 0.0 || change == 0.0) {
+        JOptionPane.showMessageDialog(this, "Complete los campos necesarios antes de imprimir.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total, payment, display, change);
+        Desktop.getDesktop().browse(new File("table.html").toURI());
+    } catch (IOException e) {
+        e.printStackTrace();
+    } 
+
     }//GEN-LAST:event_jbtnPrintActionPerformed
     private JFrame frame;
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed
@@ -879,6 +898,7 @@ try {
         }
     }//GEN-LAST:event_jbtn0ActionPerformed
 //Objetos del menu//
+    
     private void jbtnWatterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnWatterActionPerformed
         
    double PriceOfItem = 4.00;
