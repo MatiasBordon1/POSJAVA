@@ -632,15 +632,14 @@ public class JavaPOS extends javax.swing.JFrame {
 
 //============================================FUNCION CONVERSION===============================================
 
-    private Double parseDoubleWithDefault(String text, Double defaultValue) {
+    private Double convertir(String text, Double defaultValue) {
     try {
         return Double.parseDouble(text);
     } catch (NumberFormatException e) {
         return defaultValue;
     }
 }
-    
-    
+       
 //============================================FUNCION AGREGADO=================================================
 
     private void agregarProducto(product producto) {
@@ -668,14 +667,27 @@ public class JavaPOS extends javax.swing.JFrame {
         ItemCost();
     }
     
+//============================================FUNCION AGREGADO=================================================
+
+    public static void agregarNumero(javax.swing.JTextField jtxtDisplay, javax.swing.JButton btn) {
+        String Enternumber = jtxtDisplay.getText();
+        
+        if (Enternumber.equals("")) {
+            jtxtDisplay.setText(btn.getText());
+        } else {
+            Enternumber = jtxtDisplay.getText() + btn.getText();
+            jtxtDisplay.setText(Enternumber);
+        }
+    }
+    
 //==============================================================================================================//
 
     private void jbtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn3ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn3);
+            agregarNumero(jtxtDisplay, jbtn3);
     }//GEN-LAST:event_jbtn3ActionPerformed
 
     private void jbtn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn6ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn6);
+            agregarNumero(jtxtDisplay, jbtn6);
     }//GEN-LAST:event_jbtn6ActionPerformed
 
     private void jbtnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnClearActionPerformed
@@ -684,7 +696,7 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnClearActionPerformed
 
     private void jbtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn5ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn5);
+            agregarNumero(jtxtDisplay, jbtn5);
     }//GEN-LAST:event_jbtn5ActionPerformed
 
     private void jcboPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcboPaymentActionPerformed
@@ -700,7 +712,7 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jtxtTotalActionPerformed
     
     private void jbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn1ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn1);
+            agregarNumero(jtxtDisplay, jbtn1);
     }//GEN-LAST:event_jbtn1ActionPerformed
 
     private void jbtnDotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDotActionPerformed
@@ -711,7 +723,7 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnDotActionPerformed
 
     private void jbtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn2ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn2);
+            agregarNumero(jtxtDisplay, jbtn2);
     }//GEN-LAST:event_jbtn2ActionPerformed
 
     private void jbtnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnResetActionPerformed
@@ -738,15 +750,15 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnPayActionPerformed
 
     private void jbtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrintActionPerformed
-      MessageFormat header = new MessageFormat("Printing in Progress");
-      MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+     MessageFormat header = new MessageFormat("Printing in Progress");
+     MessageFormat footer = new MessageFormat("Page {0, number, integer}");
 
-Double subTotal = parseDoubleWithDefault(jtxtSubTotal.getText().replace("$", "").trim(), 0.0);
-    Double tax = parseDoubleWithDefault(jtxtTax.getText().replace("$", "").trim(), 0.0);
-    Double total = parseDoubleWithDefault(jtxtTotal.getText().replace("$", "").trim(), 0.0);
+    Double subTotal = convertir(jtxtSubTotal.getText().replace("$", "").trim(), 0.0);
+    Double tax = convertir(jtxtTax.getText().replace("$", "").trim(), 0.0);
+    Double total = convertir(jtxtTotal.getText().replace("$", "").trim(), 0.0);
     String payment = jcboPayment.getSelectedItem().toString();
-    Double display = parseDoubleWithDefault(jtxtDisplay.getText().replace("$", "").trim(), 0.0);
-    Double change = parseDoubleWithDefault(jtxtChange.getText().replace("$", "").trim(), 0.0);
+    Double display = convertir(jtxtDisplay.getText().replace("$", "").trim(), 0.0);
+    Double change = convertir(jtxtChange.getText().replace("$", "").trim(), 0.0);
 
 
     if (display == 0.0 || change == 0.0) {
@@ -782,16 +794,12 @@ Double subTotal = parseDoubleWithDefault(jtxtSubTotal.getText().replace("$", "")
 
     if (selectedRow >= 0) {
         int currentQuantity = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
-        System.out.println(currentQuantity);
         double currentTotalPrice = Double.parseDouble(model.getValueAt(selectedRow, 2).toString());
-        System.out.println(currentTotalPrice);
         if (currentQuantity > 1) {
             double unitPrice = currentTotalPrice / currentQuantity; 
            double finalPrice = currentTotalPrice - unitPrice;
             currentQuantity--; 
-            System.out.println(currentQuantity);
             model.setValueAt(currentQuantity, selectedRow, 1);
-            System.out.println(currentTotalPrice);
             model.setValueAt(finalPrice, selectedRow, 2);
         } else {
             model.removeRow(selectedRow); 
@@ -808,23 +816,23 @@ Double subTotal = parseDoubleWithDefault(jtxtSubTotal.getText().replace("$", "")
     }//GEN-LAST:event_jbtnRemoveActionPerformed
 
     private void jbtn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn7ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn7);
+            agregarNumero(jtxtDisplay, jbtn7);
     }//GEN-LAST:event_jbtn7ActionPerformed
 
     private void jbtn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn8ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn8);
+            agregarNumero(jtxtDisplay, jbtn8);
     }//GEN-LAST:event_jbtn8ActionPerformed
 
     private void jbtn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn9ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn9);
+            agregarNumero(jtxtDisplay, jbtn9);
     }//GEN-LAST:event_jbtn9ActionPerformed
 
     private void jbtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn4ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn4);
+            agregarNumero(jtxtDisplay, jbtn4);
     }//GEN-LAST:event_jbtn4ActionPerformed
 
     private void jbtn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn0ActionPerformed
-            efectivo.agregarNumero(jtxtDisplay, jbtn0);
+            agregarNumero(jtxtDisplay, jbtn0);
     }//GEN-LAST:event_jbtn0ActionPerformed
 
 //Objetos del menu//
