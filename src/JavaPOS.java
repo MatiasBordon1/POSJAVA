@@ -759,11 +759,12 @@ public class JavaPOS extends javax.swing.JFrame {
     String payment = jcboPayment.getSelectedItem().toString();
     Double display = convertir(jtxtDisplay.getText().replace("$", "").trim(), 0.0);
     Double change = convertir(jtxtChange.getText().replace("$", "").trim(), 0.0);
-
-
-    if (display == 0.0 || change == 0.0) {
-        JOptionPane.showMessageDialog(this, "Complete los campos necesarios antes de imprimir.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+    
+    if ("Cash".equals(payment)) {
+        if (display == 0.0 || change == 0.0) {
+            JOptionPane.showMessageDialog(this, "Complete los campos cash y change antes de imprimir.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }
 
     try {
