@@ -1,4 +1,7 @@
+package ProyectoPOS;
 
+
+import ProyectoPOS.Persistence.cPersistenceController;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -21,7 +24,7 @@ public class JavaSections extends javax.swing.JFrame {
     public JavaSections() {
         initComponents();
         mesaActual = -1; // Inicializa la mesaActual en un valor no válido
-
+        
     }
 private void abrirPuntoDeVenta() {
     // Crea una instancia de la clase JavaPOS (tu punto de venta)
@@ -226,6 +229,8 @@ private void abrirPuntoDeVenta() {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+       cPersistenceController persisControll = new cPersistenceController();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
