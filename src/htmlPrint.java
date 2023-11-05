@@ -5,7 +5,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
 public class htmlPrint {
-    public static void generateHtmlFile(JTable table, String fileName, Double subTotal, Double tax, Double total, String payment, Double display, Double change ) {
+    public static void generateHtmlFile(JTable table, String fileName, Double subTotal, Double tax, Double total, String payment, Double display, Double change, int numeroMesa, String fechaHoraActual ) {
         TableModel model = table.getModel();
         int rowCount = model.getRowCount();
         int columnCount = model.getColumnCount();
@@ -22,6 +22,14 @@ public class htmlPrint {
             writer.write("td.subtotal { font-weight: bold; }");
             writer.write("td.currency:before { content: '$'; }");
             writer.write("</style></head><body>");
+            
+            
+            
+            writer.write("<div class='table-container'>");
+            writer.write("<p>Mesa: " + numeroMesa + "</p>");
+            writer.write("<p>Fecha y hora de impresión: " + fechaHoraActual + "</p>");
+            writer.write("</div>");
+
 
             // Primera tabla (Productos)
             writer.write("<div class='table-container'>");

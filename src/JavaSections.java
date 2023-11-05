@@ -12,14 +12,27 @@ import javax.swing.JOptionPane;
  * @author bores
  */
 public class JavaSections extends javax.swing.JFrame {
+    private int mesaActual; // Campo para almacenar el número de mesa actual
+    private cConexionDb conexionDb; // Instancia de tu clase cConexionDb
 
     /**
      * Creates new form JavaSections
      */
     public JavaSections() {
         initComponents();
+        mesaActual = -1; // Inicializa la mesaActual en un valor no válido
+        conexionDb = new cConexionDb(); // Inicializa la instancia de cConexionDb
     }
+private void abrirPuntoDeVenta() {
+    // Crea una instancia de la clase JavaPOS (tu punto de venta)
+    JavaPOS puntoDeVenta = new JavaPOS();
 
+    // Configura la instancia del punto de venta según la mesaActual
+    puntoDeVenta.configurarMesa(mesaActual);
+
+    // Muestra la instancia del punto de venta
+    puntoDeVenta.setVisible(true);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,43 +161,54 @@ public class JavaSections extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnTable2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable2ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 2; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable2ActionPerformed
 
     private void jbtnTable1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable1ActionPerformed
-        // TODO add your handling code here:
+       mesaActual = 1; // Establece la mesa actual
+        abrirPuntoDeVenta();
+    
     }//GEN-LAST:event_jbtnTable1ActionPerformed
 
     private void jbtnTable3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable3ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 3; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable3ActionPerformed
 
     private void jbtnTable4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable4ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 4; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable4ActionPerformed
 
     private void jbtnTable5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable5ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 5; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable5ActionPerformed
 
     private void jbtnTable6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable6ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 6; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable6ActionPerformed
 
     private void jbtnTable9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable9ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 9; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable9ActionPerformed
 
     private void jbtnTable7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable7ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 7; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable7ActionPerformed
 
     private void jbtnTable8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable8ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 8; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable8ActionPerformed
 
     private void jbtnTable10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTable10ActionPerformed
-        // TODO add your handling code here:
+        mesaActual = 10; // Establece la mesa actual
+        abrirPuntoDeVenta();
     }//GEN-LAST:event_jbtnTable10ActionPerformed
     private JFrame frame;
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed

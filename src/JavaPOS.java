@@ -4,6 +4,8 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -679,6 +681,23 @@ public class JavaPOS extends javax.swing.JFrame {
             jtxtDisplay.setText(Enternumber);
         }
     }
+//============================================ATRIBUTO NUMERO DE MESA=================================================
+
+private int numeroMesa;
+
+    // Otros atributos y métodos de la clase
+
+    public void configurarMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+
+
+        // Realiza la configuración específica para la mesa
+        // Por ejemplo, establece el título de la ventana
+        this.setTitle("Mesa " + numeroMesa);
+
+        // Otros ajustes relacionados con la mesa, si los hay
+
+    }
     
 //==============================================================================================================//
 
@@ -759,6 +778,7 @@ public class JavaPOS extends javax.swing.JFrame {
     String payment = jcboPayment.getSelectedItem().toString();
     Double display = convertir(jtxtDisplay.getText().replace("$", "").trim(), 0.0);
     Double change = convertir(jtxtChange.getText().replace("$", "").trim(), 0.0);
+    int numeroMesa = this.numeroMesa;
     
     if ("Cash".equals(payment)) {
         if (display == 0.0 || change == 0.0) {
@@ -766,9 +786,25 @@ public class JavaPOS extends javax.swing.JFrame {
             return;
         }
     }
-
+    
+    if ("Visa Card".equals(payment)) {
+        if (display != 0.0 || change != 0.0) {
+            JOptionPane.showMessageDialog(this, "Campos cargados erroneamente.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }
+    if ("Master Card".equals(payment)) {
+        if (display != 0.0 || change != 0.0) {
+            JOptionPane.showMessageDialog(this, "Campos cargados erroneamente.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }
+    
     try {
-        htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total, payment, display, change);
+        Date fechaActual = new Date();
+        SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String fechaHoraActual = formatoHoraFecha.format(fechaActual);
+        htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total, payment, display, change, numeroMesa, fechaHoraActual);
         Desktop.getDesktop().browse(new File("table.html").toURI());
     } catch (IOException e) {
         e.printStackTrace();
@@ -777,14 +813,21 @@ public class JavaPOS extends javax.swing.JFrame {
     }//GEN-LAST:event_jbtnPrintActionPerformed
     private JFrame frame;
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed
-        
-        frame = new JFrame("Exit");
-        if(JOptionPane.showConfirmDialog(frame,"Confirm if you want to exit","Point of Sale", 
-                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION)
-        {
-            System.exit(0);
-        }
-            
+     int respuesta = JOptionPane.showConfirmDialog(
+        this,
+        "¿Está seguro que desea cerrar la mesa y volver a la vista de \"Secciones\"?",
+        "Confirmar Cierre de Mesa",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (respuesta == JOptionPane.YES_OPTION) {
+        // Cerrar la ventana actual
+        this.dispose();
+
+        // Volver a la ventana de JavaSections (asumiendo que tienes una instancia de JavaSections)
+        JavaSections javaSections = new JavaSections();
+        javaSections.setVisible(true);
+    }
     }//GEN-LAST:event_jbtnExitActionPerformed
 
     private void jbtnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRemoveActionPerformed
