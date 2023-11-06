@@ -20,16 +20,20 @@ public class cOrder implements Serializable {
     private double total;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
+    @Column(name = "Mesa")
+     private int mesa;
     
     
     public cOrder(){
     
     }
 
-    public cOrder(int id, double total, Date date) {
+    public cOrder(int id, double total, Date date, int mesa) {
         this.id = id;
         this.total = total;
         this.date = date;
+        this.mesa = mesa;
+        
     }
     
     
@@ -57,6 +61,16 @@ public class cOrder implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public int getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(int mesa) {
+        this.mesa = mesa;
+    }
+
+    
     
     
     

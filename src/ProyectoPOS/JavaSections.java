@@ -1,6 +1,7 @@
 package ProyectoPOS;
 
 
+import ProyectoPOS.Persistence.cOrderJpaController;
 import ProyectoPOS.Persistence.cPersistenceController;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -229,6 +230,8 @@ private void abrirPuntoDeVenta() {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+         cOrderJpaController cOrderJpa = new cOrderJpaController ();
         
        cPersistenceController persisControll = new cPersistenceController();
         /* Set the Nimbus look and feel */

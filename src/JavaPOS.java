@@ -1,4 +1,6 @@
 
+import ProyectoPOS.Persistence.cOrderJpaController;
+import ProyectoPOS.cOrder;
 import java.awt.Desktop;
 import java.awt.print.PrinterException;
 import java.io.File;
@@ -6,6 +8,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.persistence.EntityManagerFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,6 +24,13 @@ import javax.swing.table.DefaultTableModel;
  * @author bores
  */
 public class JavaPOS extends javax.swing.JFrame {
+    private EntityManagerFactory emf; // Injected EntityManagerFactory
+
+    public JavaPOS(EntityManagerFactory emf) {
+        initComponents();
+        this.emf = emf; // Set the injected EntityManagerFactory
+        numeroMesa = -1; // Initialize mesaActual to an invalid value
+    }
 
     /**
      * Creates new form JavaPOS
@@ -804,6 +814,12 @@ private int numeroMesa;
         Date fechaActual = new Date();
         SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String fechaHoraActual = formatoHoraFecha.format(fechaActual);
+        cOrder order = new cOrder();
+        order.setTotal(total);
+        order.setDate(fechaActual);
+        order.setMesa(numeroMesa);
+        cOrderJpaController controller = new cOrderJpaController(emf);
+        controller.create(order);
         htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total, payment, display, change, numeroMesa, fechaHoraActual);
         Desktop.getDesktop().browse(new File("table.html").toURI());
     } catch (IOException e) {

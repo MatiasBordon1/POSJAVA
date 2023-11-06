@@ -14,17 +14,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 public class cOrderJpaController implements Serializable {
+     private EntityManagerFactory emf = null;
 
     public cOrderJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    
-    public cOrderJpaController(){
-        emf =Persistence.createEntityManagerFactory("POSPU");
+
+    public cOrderJpaController() {
+        emf = Persistence.createEntityManagerFactory("POSPU");
     }
-    
-    
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
