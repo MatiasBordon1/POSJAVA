@@ -1,5 +1,6 @@
 
 import ProyectoPOS.Persistence.cOrderJpaController;
+import ProyectoPOS.Persistence.cPersistenceController;
 import ProyectoPOS.cOrder;
 import java.awt.Desktop;
 import java.awt.print.PrinterException;
@@ -797,29 +798,28 @@ private int numeroMesa;
         }
     }
     
-    if ("Visa Card".equals(payment)) {
-        if (display != 0.0 || change != 0.0) {
-            JOptionPane.showMessageDialog(this, "Campos cargados erroneamente.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    if ("Visa Card".equals(payment) || "Master Card".equals(payment)) {
+            if (display != 0.0 || change != 0.0) {
+                JOptionPane.showMessageDialog(this, "Campos cargados erroneamente.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
-    }
-    if ("Master Card".equals(payment)) {
-        if (display != 0.0 || change != 0.0) {
-            JOptionPane.showMessageDialog(this, "Campos cargados erroneamente.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    }
     
     try {
         Date fechaActual = new Date();
         SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String fechaHoraActual = formatoHoraFecha.format(fechaActual);
-        cOrder order = new cOrder();
-        order.setTotal(total);
-        order.setDate(fechaActual);
-        order.setMesa(numeroMesa);
-        cOrderJpaController controller = new cOrderJpaController(emf);
-        controller.create(order);
+        
+        // Crear una instancia de cOrder
+            cOrder order = new cOrder();
+            order.setTotal(total);
+            order.setDate(fechaActual);
+            order.setMesa(numeroMesa);
+
+            // Insertar la orden en la base de datos usando cOrderJpaController
+            cOrderJpaController controller = new cOrderJpaController(emf);
+            controller.create(order);
+        
         htmlPrint.generateHtmlFile(jTable1, "table.html",  subTotal, tax, total, payment, display, change, numeroMesa, fechaHoraActual);
         Desktop.getDesktop().browse(new File("table.html").toURI());
     } catch (IOException e) {
@@ -987,6 +987,7 @@ private int numeroMesa;
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        cPersistenceController persisControll = new cPersistenceController();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
