@@ -22,6 +22,9 @@ public class cOrder implements Serializable {
     private Date date;
     @Column(name = "Mesa")
      private int mesa;
+//    @ManyToMany
+//    @JoinTable()
+//    private List<Item> items;
     
     
     public cOrder(){

@@ -5,7 +5,7 @@
 package ProyectoPOS.Persistence;
 
 public class cPersistenceController {
-    
-    cOrderJpaController cOrderJpa = new cOrderJpaController ();
-    
+
+    cOrderJpaController cOrderJpa = new cOrderJpaController();
+
 }

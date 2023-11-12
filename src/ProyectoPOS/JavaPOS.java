@@ -1,6 +1,5 @@
 package ProyectoPOS;
 
-
 import ProyectoPOS.Persistence.cOrderJpaController;
 import ProyectoPOS.Persistence.cPersistenceController;
 import java.awt.Desktop;
@@ -10,6 +9,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JFrame;
@@ -19,11 +20,15 @@ import javax.swing.table.DefaultTableModel;
 
 public class JavaPOS extends javax.swing.JFrame {
     private EntityManagerFactory emf; // Injected EntityManagerFactory
+    private List<product> products;
 
     public JavaPOS(EntityManagerFactory emf) {
         initComponents();
          this.emf = emf; // Inicializa EntityManagerFactory con el valor proporcionado
-        numeroMesa = -1; // Initialize mesaActual to an invalid value
+        numeroMesa = -1; 
+        EntityManager em = emf.createEntityManager();
+        ////productos = em.createQuery("procut.listAll").getResultList();
+        
 
     }
 
@@ -31,7 +36,7 @@ public class JavaPOS extends javax.swing.JFrame {
     public JavaPOS() {
         initComponents();
         emf = Persistence.createEntityManagerFactory("POSPU"); // Inicializa EntityManagerFactory
-        numeroMesa = -1; // Initialize mesaActual to an invalid value
+        numeroMesa = -1; 
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +56,7 @@ public class JavaPOS extends javax.swing.JFrame {
         jbtnMozzarellaSticks = new javax.swing.JButton();
         jbtnNuggs = new javax.swing.JButton();
         jbtnCheeseBurger = new javax.swing.JButton();
-        jbtnWatter = new javax.swing.JButton();
+        jbtnWater = new javax.swing.JButton();
         jbtnCoke = new javax.swing.JButton();
         jbtnDietCoke = new javax.swing.JButton();
         jbtnFanta = new javax.swing.JButton();
@@ -215,14 +220,14 @@ public class JavaPOS extends javax.swing.JFrame {
         });
         jPanel1.add(jbtnCheeseBurger, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 160, 100, 120));
 
-        jbtnWatter.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jbtnWatter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/aguita.jpeg"))); // NOI18N
-        jbtnWatter.addActionListener(new java.awt.event.ActionListener() {
+        jbtnWater.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jbtnWater.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/aguita.jpeg"))); // NOI18N
+        jbtnWater.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnWatterActionPerformed(evt);
+                jbtnWaterActionPerformed(evt);
             }
         });
-        jPanel1.add(jbtnWatter, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 100, 120));
+        jPanel1.add(jbtnWater, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 100, 120));
 
         jbtnCoke.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jbtnCoke.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/coca vidrio.jpeg"))); // NOI18N
@@ -644,7 +649,18 @@ public class JavaPOS extends javax.swing.JFrame {
        
 //============================================FUNCION AGREGADO=================================================
 
+    //TO-DO
+////    private void agregarProducto(int id){
+////        for (product p: products) {
+////            if (p.getId() == id) {
+////                
+////                break;
+////            }
+////        }
+////    }
+    
     private void agregarProducto(product producto) {
+       
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         boolean itemExists = false;
         int rowCount = model.getRowCount();
@@ -685,18 +701,9 @@ public class JavaPOS extends javax.swing.JFrame {
 
 private int numeroMesa;
 
-    // Otros atributos y métodos de la clase
-
     public void configurarMesa(int numeroMesa) {
         this.numeroMesa = numeroMesa;
-
-
-        // Realiza la configuración específica para la mesa
-        // Por ejemplo, establece el título de la ventana
         this.setTitle("Mesa " + numeroMesa);
-
-        // Otros ajustes relacionados con la mesa, si los hay
-
     }
     
 //==============================================================================================================//
@@ -887,9 +894,10 @@ private int numeroMesa;
 
 //Objetos del menu//
     
-    private void jbtnWatterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnWatterActionPerformed
-            agregarProducto(new product("Watter", 4.00));
-    }//GEN-LAST:event_jbtnWatterActionPerformed
+    private void jbtnWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnWaterActionPerformed
+            agregarProducto(new product("Water", 4.00));
+            //agregarProducto(1);
+    }//GEN-LAST:event_jbtnWaterActionPerformed
 
     private void jbtnLevainCookiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLevainCookiesActionPerformed
             agregarProducto(new product("Cookies", 4.50));
@@ -937,6 +945,7 @@ private int numeroMesa;
 
     private void jbtnCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheeseBurgerActionPerformed
             agregarProducto(new product("Cheese Burger", 7.00));
+            evt.getSource()
     }//GEN-LAST:event_jbtnCheeseBurgerActionPerformed
 
     private void jbtnDBLCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDBLCheeseBurgerActionPerformed
@@ -978,6 +987,62 @@ private int numeroMesa;
      */
     public static void main(String args[]) {
         cPersistenceController persisControll = new cPersistenceController();
+//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("POSPU"); 
+//    EntityManager em = emf.createEntityManager();
+//
+//   
+//    product producto1 = new product(1, "Water", 4.00);
+//    product producto2 = new product(2, "Coke", 3.50);
+//    product producto3 = new product(3, "Diet Coke", 3.50);
+//    product producto4 = new product(4, "Fanta", 3.50);
+//    product producto5 = new product(5, "Sprite", 3.50);
+//    product producto6 = new product(6, "Lemonade", 3.50);
+//    product producto7 = new product(7, "Fries", 5.00);
+//    product producto8 = new product(8, "Bacon Cheese Fries", 6.50);
+//    product producto9 = new product(9, "Onion Rings", 6.00);
+//    product producto10 = new product(10, "Muzzarella Sticks", 6.00);
+//    product producto11 = new product(11, "Nuggets", 6.50);
+//    product producto12 = new product(12, "Cheese Burger", 7.00);
+//    product producto13 = new product(13, "Double Cheese Burger", 9.50);
+//    product producto14 = new product(14, "Fried Chicken Sandwich", 9.00);
+//    product producto15 = new product(15, "Pizza", 15.0);
+//    product producto16 = new product(16, "Ice Cream", 10.0);
+//    product producto17 = new product(17, "Milk Shakes", 12.75);
+//    product producto18 = new product(18, "Cookies", 4.50);
+//
+//
+//    
+//    em.getTransaction().begin();
+//
+//    
+//    em.persist(producto2);
+//    em.persist(producto3);
+//    em.persist(producto4);
+//    em.persist(producto5);
+//    em.persist(producto6);
+//    em.persist(producto7);
+//    em.persist(producto8);
+//    em.persist(producto9);
+//    em.persist(producto10);
+//    em.persist(producto11);
+//    em.persist(producto12);
+//    em.persist(producto13);
+//    em.persist(producto14);
+//    em.persist(producto15);
+//    em.persist(producto16);
+//    em.persist(producto17);
+//    em.persist(producto18);
+//    
+//
+//    
+//    em.getTransaction().commit();
+//
+//    em.close(); 
+//    emf.close(); 
+
+    
+
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1064,7 +1129,7 @@ private int numeroMesa;
     private javax.swing.JButton jbtnRemove;
     private javax.swing.JButton jbtnReset;
     private javax.swing.JButton jbtnSprite;
-    private javax.swing.JButton jbtnWatter;
+    private javax.swing.JButton jbtnWater;
     private javax.swing.JComboBox<String> jcboPayment;
     private javax.swing.JTextField jtxtBarCode;
     private javax.swing.JTextField jtxtChange;
