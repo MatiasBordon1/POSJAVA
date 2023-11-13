@@ -28,9 +28,9 @@ public class cOrder implements Serializable {
      private int mesa;
     @ManyToMany
     @JoinTable(
-  name = "order_products", // nombre personalizado para la tabla de unión
-  joinColumns = @JoinColumn(name = "order_id"), // columna que referencia a `cOrder`
-  inverseJoinColumns = @JoinColumn(name = "product_id") // columna que referencia a `Product`
+  name = "order_products", 
+  joinColumns = @JoinColumn(name = "order_id"), 
+  inverseJoinColumns = @JoinColumn(name = "product_id")
 )
     private List<product> products;
     
