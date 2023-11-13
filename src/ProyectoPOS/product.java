@@ -1,17 +1,20 @@
 package ProyectoPOS;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="Producto")
-////@NamedQuery(name="product.listAll", query="select p from product p")
+@NamedQuery(name="product.findAll", query="SELECT p FROM product p")
 public class product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +23,9 @@ public class product implements Serializable {
     private String nombre;
     @Column(name="precio")
     private double precio;
+    
+    @ManyToMany(mappedBy = "products")
+    private List<cOrder> orders;
 
     public int getId() {
         return id;

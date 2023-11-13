@@ -1,12 +1,16 @@
 package ProyectoPOS;
 
 import java.io.Serializable;
+import javax.persistence.ManyToMany;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -22,9 +26,13 @@ public class cOrder implements Serializable {
     private Date date;
     @Column(name = "Mesa")
      private int mesa;
-//    @ManyToMany
-//    @JoinTable()
-//    private List<Item> items;
+    @ManyToMany
+    @JoinTable(
+  name = "order_products", // nombre personalizado para la tabla de unión
+  joinColumns = @JoinColumn(name = "order_id"), // columna que referencia a `cOrder`
+  inverseJoinColumns = @JoinColumn(name = "product_id") // columna que referencia a `Product`
+)
+    private List<product> products;
     
     
     public cOrder(){
@@ -39,7 +47,15 @@ public class cOrder implements Serializable {
         
     }
     
-    
+
+    public void setProducts(List<product> products) {
+        this.products = products;
+    }
+
+
+    public List<product> getProducts() {
+        return this.products;
+    }
 
     public int getId() {
         return id;

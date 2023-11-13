@@ -218,7 +218,7 @@ private void abrirPuntoDeVenta() {
     public static void main(String args[]) {
         
         
-       cPersistenceController persisControll = new cPersistenceController();
+       //cPersistenceController persisControll = new cPersistenceController();
        
            EntityManagerFactory emf = Persistence.createEntityManagerFactory("POSPU"); // Crea EntityManagerFactory
             JavaSections javaSections = new JavaSections(emf); // Pasa emf como parámetro

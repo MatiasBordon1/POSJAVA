@@ -2,17 +2,20 @@ package ProyectoPOS;
 
 import ProyectoPOS.Persistence.cOrderJpaController;
 import ProyectoPOS.Persistence.cPersistenceController;
+import ProyectoPOS.product;
 import java.awt.Desktop;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -27,7 +30,7 @@ public class JavaPOS extends javax.swing.JFrame {
          this.emf = emf; // Inicializa EntityManagerFactory con el valor proporcionado
         numeroMesa = -1; 
         EntityManager em = emf.createEntityManager();
-        ////productos = em.createQuery("procut.listAll").getResultList();
+        loadProducts(); // Cargar los productos al iniciar
         
 
     }
@@ -37,6 +40,7 @@ public class JavaPOS extends javax.swing.JFrame {
         initComponents();
         emf = Persistence.createEntityManagerFactory("POSPU"); // Inicializa EntityManagerFactory
         numeroMesa = -1; 
+        loadProducts(); // Cargar los productos al iniciar
     }
 
     @SuppressWarnings("unchecked")
@@ -598,6 +602,35 @@ public class JavaPOS extends javax.swing.JFrame {
     jtxtBarCode.setText(BarCode);
 }
     
+//============================================FUNCION CARGAR PRODUCTO===================================================
+    
+        private void loadProducts() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            products = em.createNamedQuery("Product.findAll", product.class).getResultList();
+            // Ahora puedes usar la lista de productos
+        } finally {
+            em.close();
+        }
+    }
+    
+//============================================FUNCION ENCONTRAR PRODUCTO===================================================
+        
+        private product findProductByName(String name) {
+    EntityManager em = emf.createEntityManager();
+    try {
+        TypedQuery<product> query = em.createNamedQuery("product.findByName", product.class);
+        query.setParameter("name", name);
+        List<product> products = query.getResultList();
+        if (!products.isEmpty()) {
+            return products.get(0); // Retorna el primer producto que coincide con el nombre
+        }
+    } finally {
+        em.close();
+    }
+    return null; // Si no se encuentra ningún producto, devuelve null
+}
+        
 //============================================FUNCION CAMBIO===================================================
     
     public void Change() {
@@ -649,42 +682,62 @@ public class JavaPOS extends javax.swing.JFrame {
        
 //============================================FUNCION AGREGADO=================================================
 
-    //TO-DO
-////    private void agregarProducto(int id){
-////        for (product p: products) {
-////            if (p.getId() == id) {
-////                
-////                break;
-////            }
-////        }
-////    }
-    
-    private void agregarProducto(product producto) {
-       
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        boolean itemExists = false;
-        int rowCount = model.getRowCount();
+    private void agregarProducto(int id) {
+    for (product p : products) {
+        if (p.getId() == id) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            boolean itemExists = false;
+            int rowCount = model.getRowCount();
 
-        for (int i = 0; i < rowCount; i++) {
-            if (model.getValueAt(i, 0).equals(producto.getNombre())) {
-                int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
-                double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
-                currentQuantity++;
-                currentPrice += producto.getPrecio();
-                model.setValueAt(currentQuantity, i, 1);
-                model.setValueAt(currentPrice, i, 2);
-                itemExists = true;
-                break;
+            for (int i = 0; i < rowCount; i++) {
+                if (model.getValueAt(i, 0).equals(p.getNombre())) {
+                    int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+                    double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+                    currentQuantity++;
+                    currentPrice += p.getPrecio();
+                    model.setValueAt(currentQuantity, i, 1);
+                    model.setValueAt(currentPrice, i, 2);
+                    itemExists = true;
+                    break;
+                }
             }
-        }
 
-        if (!itemExists) {
-            model.addRow(new Object[]{producto.getNombre(), "1", producto.getPrecio()});
-        }
+            if (!itemExists) {
+                model.addRow(new Object[]{p.getNombre(), 1, p.getPrecio()});
+            }
 
-        ItemCost();
+            ItemCost();
+            break; // Esto asegura que dejas de buscar una vez que encuentras el producto
+        }
     }
     
+    }
+    
+//    private void agregarProducto(product producto) {
+//       
+//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//        boolean itemExists = false;
+//        int rowCount = model.getRowCount();
+//
+//        for (int i = 0; i < rowCount; i++) {
+//            if (model.getValueAt(i, 0).equals(producto.getNombre())) {
+//                int currentQuantity = Integer.parseInt(model.getValueAt(i, 1).toString());
+//                double currentPrice = Double.parseDouble(model.getValueAt(i, 2).toString());
+//                currentQuantity++;
+//                currentPrice += producto.getPrecio();
+//                model.setValueAt(currentQuantity, i, 1);
+//                model.setValueAt(currentPrice, i, 2);
+//                itemExists = true;
+//                break;
+//            }
+//        }
+//
+//        if (!itemExists) {
+//            model.addRow(new Object[]{producto.getNombre(), "1", producto.getPrecio()});
+//        }
+//
+//        ItemCost();
+//    }  
 //============================================FUNCION AGREGADO=================================================
 
     public static void agregarNumero(javax.swing.JTextField jtxtDisplay, javax.swing.JButton btn) {
@@ -812,6 +865,20 @@ private int numeroMesa;
             order.setTotal(total);
             order.setDate(fechaActual);
             order.setMesa(numeroMesa);
+            
+            // Aquí agregas los productos a la orden
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        List<product> productList = new ArrayList<>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String productName = model.getValueAt(i, 0).toString();
+            // Asumiendo que tienes un método que puede encontrar un producto por nombre
+            product prod = findProductByName(productName);
+            if (prod != null) {
+                productList.add(prod);
+            }
+        }
+        order.setProducts(productList); // Asumiendo que tienes un setter para productos en cOrder
+
 
             // Insertar la orden en la base de datos usando cOrderJpaController
             cOrderJpaController controller = new cOrderJpaController(emf);
@@ -895,77 +962,75 @@ private int numeroMesa;
 //Objetos del menu//
     
     private void jbtnWaterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnWaterActionPerformed
-            agregarProducto(new product("Water", 4.00));
-            //agregarProducto(1);
+            agregarProducto(1);
     }//GEN-LAST:event_jbtnWaterActionPerformed
 
     private void jbtnLevainCookiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLevainCookiesActionPerformed
-            agregarProducto(new product("Cookies", 4.50));
+            agregarProducto(13);
     }//GEN-LAST:event_jbtnLevainCookiesActionPerformed
 
     private void jbtnDietCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDietCokeActionPerformed
-            agregarProducto(new product("Diet Coke", 3.50));
+            agregarProducto(2);
     }//GEN-LAST:event_jbtnDietCokeActionPerformed
 
     private void jbtnCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCokeActionPerformed
-            agregarProducto(new product("Coke", 3.50));
+            agregarProducto(10);
     }//GEN-LAST:event_jbtnCokeActionPerformed
 
     private void jbtnFantaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFantaActionPerformed
-            agregarProducto(new product("Fanta", 3.50));
+            agregarProducto(17);
     }//GEN-LAST:event_jbtnFantaActionPerformed
 
     private void jbtnSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSpriteActionPerformed
-            agregarProducto(new product("Sprite", 3.50));
+            agregarProducto(6);
     }//GEN-LAST:event_jbtnSpriteActionPerformed
 
     private void jbtnLemonadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLemonadeActionPerformed
-            agregarProducto(new product("Lemonade", 3.50));
+            agregarProducto(14);
     }//GEN-LAST:event_jbtnLemonadeActionPerformed
 
     private void jbtnFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriesActionPerformed
-            agregarProducto(new product("Fries", 5.00));
+            agregarProducto(7);
     }//GEN-LAST:event_jbtnFriesActionPerformed
 
     private void jbtnBaconCheeseFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBaconCheeseFriesActionPerformed
-            agregarProducto(new product("Bacon Cheese Fries", 6.50));
+            agregarProducto(3);
     }//GEN-LAST:event_jbtnBaconCheeseFriesActionPerformed
 
     private void jbtnOnionRingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOnionRingsActionPerformed
-            agregarProducto(new product("Onion Rings", 6.00));
+            agregarProducto(15);
     }//GEN-LAST:event_jbtnOnionRingsActionPerformed
 
     private void jbtnMozzarellaSticksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMozzarellaSticksActionPerformed
-            agregarProducto(new product("Mozzarella Sticks", 6.00));
+            agregarProducto(16);
     }//GEN-LAST:event_jbtnMozzarellaSticksActionPerformed
 
     private void jbtnNuggsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuggsActionPerformed
-            agregarProducto(new product("Nuggs", 6.50));
+            agregarProducto(5);
     }//GEN-LAST:event_jbtnNuggsActionPerformed
 
     private void jbtnCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheeseBurgerActionPerformed
-            agregarProducto(new product("Cheese Burger", 7.00));
-            evt.getSource()
+            agregarProducto(8);
     }//GEN-LAST:event_jbtnCheeseBurgerActionPerformed
 
     private void jbtnDBLCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDBLCheeseBurgerActionPerformed
-            agregarProducto(new product("DBL Cheese Burger", 9.50));
+            agregarProducto(18);
     }//GEN-LAST:event_jbtnDBLCheeseBurgerActionPerformed
 
     private void jbtnFriedChickenSandwichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriedChickenSandwichActionPerformed
-            agregarProducto(new product("Fried Chicken Sandwich", 9.00));
+            agregarProducto(11);
     }//GEN-LAST:event_jbtnFriedChickenSandwichActionPerformed
 
     private void jbtnPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPizzaActionPerformed
-            agregarProducto(new product("Pizza", 15.00));
+            agregarProducto(9);
     }//GEN-LAST:event_jbtnPizzaActionPerformed
 
     private void jbtnIceCreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIceCreamActionPerformed
-             agregarProducto(new product("Ice Cream", 10.00));
+             agregarProducto(12);
     }//GEN-LAST:event_jbtnIceCreamActionPerformed
 
     private void jbtnMilkShakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMilkShakeActionPerformed
-             agregarProducto(new product("Milk Shake", 12.75));
+             agregarProducto(14);
     }//GEN-LAST:event_jbtnMilkShakeActionPerformed
 
 ////====================================================////
