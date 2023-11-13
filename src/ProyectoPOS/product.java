@@ -8,13 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="Producto")
-@NamedQuery(name="product.findAll", query="SELECT p FROM product p")
+@NamedQueries({
+    @NamedQuery(name = "product.findAll", query = "SELECT p FROM product p"),
+    @NamedQuery(name = "product.findByName", query = "SELECT p FROM product p WHERE p.nombre = :name")
+})
 public class product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

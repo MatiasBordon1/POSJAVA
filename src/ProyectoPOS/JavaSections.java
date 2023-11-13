@@ -14,12 +14,12 @@ public class JavaSections extends javax.swing.JFrame {
     public JavaSections(EntityManagerFactory emf) {
         initComponents();
         mesaActual = -1;
-        emf = Persistence.createEntityManagerFactory("POSPU"); 
+        this.emf = emf;
 
     }
 private void abrirPuntoDeVenta() {
     
-    JavaPOS puntoDeVenta = new JavaPOS();
+    JavaPOS puntoDeVenta = new JavaPOS(emf);
 
     
     puntoDeVenta.configurarMesa(mesaActual);

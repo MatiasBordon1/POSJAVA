@@ -793,7 +793,7 @@ private int numeroMesa;
     
     if ("Cash".equals(payment)) {
         if (display == 0.0 || change == 0.0) {
-            JOptionPane.showMessageDialog(this, "Complete los campos cash y change antes de imprimir.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "boca.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
     }

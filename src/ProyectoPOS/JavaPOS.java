@@ -29,7 +29,6 @@ public class JavaPOS extends javax.swing.JFrame {
         initComponents();
          this.emf = emf; // Inicializa EntityManagerFactory con el valor proporcionado
         numeroMesa = -1; 
-        EntityManager em = emf.createEntityManager();
         loadProducts(); // Cargar los productos al iniciar
         
 
@@ -38,7 +37,6 @@ public class JavaPOS extends javax.swing.JFrame {
  
     public JavaPOS() {
         initComponents();
-        emf = Persistence.createEntityManagerFactory("POSPU"); // Inicializa EntityManagerFactory
         numeroMesa = -1; 
         loadProducts(); // Cargar los productos al iniciar
     }
@@ -607,8 +605,7 @@ public class JavaPOS extends javax.swing.JFrame {
         private void loadProducts() {
         EntityManager em = emf.createEntityManager();
         try {
-            products = em.createNamedQuery("Product.findAll", product.class).getResultList();
-            // Ahora puedes usar la lista de productos
+            products = em.createNamedQuery("product.findAll", product.class).getResultList();
         } finally {
             em.close();
         }
@@ -623,12 +620,12 @@ public class JavaPOS extends javax.swing.JFrame {
         query.setParameter("name", name);
         List<product> products = query.getResultList();
         if (!products.isEmpty()) {
-            return products.get(0); // Retorna el primer producto que coincide con el nombre
+            return products.get(0);
         }
     } finally {
         em.close();
     }
-    return null; // Si no se encuentra ningún producto, devuelve null
+    return null;
 }
         
 //============================================FUNCION CAMBIO===================================================
@@ -860,27 +857,27 @@ private int numeroMesa;
         SimpleDateFormat formatoHoraFecha = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String fechaHoraActual = formatoHoraFecha.format(fechaActual);
         
-        // Crear una instancia de cOrder
+ 
             cOrder order = new cOrder();
             order.setTotal(total);
             order.setDate(fechaActual);
             order.setMesa(numeroMesa);
             
-            // Aquí agregas los productos a la orden
+         
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         List<product> productList = new ArrayList<>();
         for (int i = 0; i < model.getRowCount(); i++) {
             String productName = model.getValueAt(i, 0).toString();
-            // Asumiendo que tienes un método que puede encontrar un producto por nombre
+   
             product prod = findProductByName(productName);
             if (prod != null) {
                 productList.add(prod);
             }
         }
-        order.setProducts(productList); // Asumiendo que tienes un setter para productos en cOrder
+        order.setProducts(productList); 
 
 
-            // Insertar la orden en la base de datos usando cOrderJpaController
+            
             cOrderJpaController controller = new cOrderJpaController(emf);
             controller.create(order);
         
@@ -901,10 +898,10 @@ private int numeroMesa;
     );
 
     if (respuesta == JOptionPane.YES_OPTION) {
-        // Cerrar la ventana actual
+     
         this.dispose();
 
-        // Volver a la ventana de JavaSections (asumiendo que tienes una instancia de JavaSections)
+      
         JavaSections javaSections = new JavaSections(emf);
         javaSections.setVisible(true);
     }
@@ -966,7 +963,7 @@ private int numeroMesa;
     }//GEN-LAST:event_jbtnWaterActionPerformed
 
     private void jbtnLevainCookiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLevainCookiesActionPerformed
-            agregarProducto(13);
+            agregarProducto(5);
     }//GEN-LAST:event_jbtnLevainCookiesActionPerformed
 
     private void jbtnDietCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDietCokeActionPerformed
@@ -974,15 +971,15 @@ private int numeroMesa;
     }//GEN-LAST:event_jbtnDietCokeActionPerformed
 
     private void jbtnCokeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCokeActionPerformed
-            agregarProducto(10);
+            agregarProducto(9);
     }//GEN-LAST:event_jbtnCokeActionPerformed
 
     private void jbtnFantaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFantaActionPerformed
-            agregarProducto(17);
+            agregarProducto(8);
     }//GEN-LAST:event_jbtnFantaActionPerformed
 
     private void jbtnSpriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSpriteActionPerformed
-            agregarProducto(6);
+            agregarProducto(18);
     }//GEN-LAST:event_jbtnSpriteActionPerformed
 
     private void jbtnLemonadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLemonadeActionPerformed
@@ -990,11 +987,11 @@ private int numeroMesa;
     }//GEN-LAST:event_jbtnLemonadeActionPerformed
 
     private void jbtnFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriesActionPerformed
-            agregarProducto(7);
+            agregarProducto(4);
     }//GEN-LAST:event_jbtnFriesActionPerformed
 
     private void jbtnBaconCheeseFriesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBaconCheeseFriesActionPerformed
-            agregarProducto(3);
+            agregarProducto(12);
     }//GEN-LAST:event_jbtnBaconCheeseFriesActionPerformed
 
     private void jbtnOnionRingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOnionRingsActionPerformed
@@ -1002,35 +999,35 @@ private int numeroMesa;
     }//GEN-LAST:event_jbtnOnionRingsActionPerformed
 
     private void jbtnMozzarellaSticksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMozzarellaSticksActionPerformed
-            agregarProducto(16);
+            agregarProducto(11);
     }//GEN-LAST:event_jbtnMozzarellaSticksActionPerformed
 
     private void jbtnNuggsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuggsActionPerformed
-            agregarProducto(5);
+            agregarProducto(10);
     }//GEN-LAST:event_jbtnNuggsActionPerformed
 
     private void jbtnCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCheeseBurgerActionPerformed
-            agregarProducto(8);
+            agregarProducto(3);
     }//GEN-LAST:event_jbtnCheeseBurgerActionPerformed
 
     private void jbtnDBLCheeseBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDBLCheeseBurgerActionPerformed
-            agregarProducto(18);
+            agregarProducto(13);
     }//GEN-LAST:event_jbtnDBLCheeseBurgerActionPerformed
 
     private void jbtnFriedChickenSandwichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnFriedChickenSandwichActionPerformed
-            agregarProducto(11);
+            agregarProducto(17);
     }//GEN-LAST:event_jbtnFriedChickenSandwichActionPerformed
 
     private void jbtnPizzaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPizzaActionPerformed
-            agregarProducto(9);
+            agregarProducto(7);
     }//GEN-LAST:event_jbtnPizzaActionPerformed
 
     private void jbtnIceCreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIceCreamActionPerformed
-             agregarProducto(12);
+             agregarProducto(6);
     }//GEN-LAST:event_jbtnIceCreamActionPerformed
 
     private void jbtnMilkShakeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMilkShakeActionPerformed
-             agregarProducto(14);
+             agregarProducto(16);
     }//GEN-LAST:event_jbtnMilkShakeActionPerformed
 
 ////====================================================////
@@ -1051,59 +1048,60 @@ private int numeroMesa;
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        cPersistenceController persisControll = new cPersistenceController();
-//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("POSPU"); 
-//    EntityManager em = emf.createEntityManager();
-//
-//   
-//    product producto1 = new product(1, "Water", 4.00);
-//    product producto2 = new product(2, "Coke", 3.50);
-//    product producto3 = new product(3, "Diet Coke", 3.50);
-//    product producto4 = new product(4, "Fanta", 3.50);
-//    product producto5 = new product(5, "Sprite", 3.50);
-//    product producto6 = new product(6, "Lemonade", 3.50);
-//    product producto7 = new product(7, "Fries", 5.00);
-//    product producto8 = new product(8, "Bacon Cheese Fries", 6.50);
-//    product producto9 = new product(9, "Onion Rings", 6.00);
-//    product producto10 = new product(10, "Muzzarella Sticks", 6.00);
-//    product producto11 = new product(11, "Nuggets", 6.50);
-//    product producto12 = new product(12, "Cheese Burger", 7.00);
-//    product producto13 = new product(13, "Double Cheese Burger", 9.50);
-//    product producto14 = new product(14, "Fried Chicken Sandwich", 9.00);
-//    product producto15 = new product(15, "Pizza", 15.0);
-//    product producto16 = new product(16, "Ice Cream", 10.0);
-//    product producto17 = new product(17, "Milk Shakes", 12.75);
-//    product producto18 = new product(18, "Cookies", 4.50);
-//
-//
-//    
-//    em.getTransaction().begin();
-//
-//    
-//    em.persist(producto2);
-//    em.persist(producto3);
-//    em.persist(producto4);
-//    em.persist(producto5);
-//    em.persist(producto6);
-//    em.persist(producto7);
-//    em.persist(producto8);
-//    em.persist(producto9);
-//    em.persist(producto10);
-//    em.persist(producto11);
-//    em.persist(producto12);
-//    em.persist(producto13);
-//    em.persist(producto14);
-//    em.persist(producto15);
-//    em.persist(producto16);
-//    em.persist(producto17);
-//    em.persist(producto18);
-//    
-//
-//    
-//    em.getTransaction().commit();
-//
-//    em.close(); 
-//    emf.close(); 
+  EntityManagerFactory emf = Persistence.createEntityManagerFactory("POSPU"); 
+  EntityManager em = emf.createEntityManager();
+
+
+
+   
+    product producto1 = new product(1, "Water", 4.00);
+    product producto2 = new product(2, "Coke", 3.50);
+    product producto3 = new product(3, "Diet Coke", 3.50);
+    product producto4 = new product(4, "Fanta", 3.50);
+    product producto5 = new product(5, "Sprite", 3.50);
+    product producto6 = new product(6, "Lemonade", 3.50);
+    product producto7 = new product(7, "Fries", 5.00);
+    product producto8 = new product(8, "Bacon Cheese Fries", 6.50);
+    product producto9 = new product(9, "Onion Rings", 6.00);
+    product producto10 = new product(10, "Muzzarella Sticks", 6.00);
+    product producto11 = new product(11, "Nuggets", 6.50);
+    product producto12 = new product(12, "Cheese Burger", 7.00);
+    product producto13 = new product(13, "Double Cheese Burger", 9.50);
+    product producto14 = new product(14, "Fried Chicken Sandwich", 9.00);
+    product producto15 = new product(15, "Pizza", 15.0);
+    product producto16 = new product(16, "Ice Cream", 10.0);
+    product producto17 = new product(17, "Milk Shakes", 12.75);
+    product producto18 = new product(18, "Cookies", 4.50);
+
+
+    
+    em.getTransaction().begin();
+
+    em.persist(producto1);
+    em.persist(producto2);
+    em.persist(producto3);
+    em.persist(producto4);
+    em.persist(producto5);
+    em.persist(producto6);
+    em.persist(producto7);
+    em.persist(producto8);
+    em.persist(producto9);
+    em.persist(producto10);
+    em.persist(producto11);
+    em.persist(producto12);
+    em.persist(producto13);
+    em.persist(producto14);
+    em.persist(producto15);
+    em.persist(producto16);
+    em.persist(producto17);
+    em.persist(producto18);
+    
+
+    
+    em.getTransaction().commit();
+
+    em.close(); 
+  
 
     
 
@@ -1134,7 +1132,7 @@ private int numeroMesa;
         /* Create and display the form */
         //java.awt.EventQueue.invokeLater(new Runnable() {
             //public void run() {
-                new JavaPOS().setVisible(true);
+                new JavaPOS(emf).setVisible(true);
             //}
         //});
     }
